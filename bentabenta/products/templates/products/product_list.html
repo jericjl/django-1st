@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for item in obj %}
+<br>
+<div class="card text-white bg-success">
+  <img class="card-img-top" src="holder.js/100px180/" alt="">
+  <div class="card-body">
+    <h4 class="card-title">
+    ${{item.price}}</h4>
+    <p class="card-text"><h5><a href="/products/{{item.id}}/"> {{item.name}}</a></h5></p>
+     <p><small>Date Added: </small>{{item.created_at}}</p>
+    <button type="button" name="" id="" class="btn btn-primary" btn-lg btn-block">Add to Cart</button>
+  </div>
+</div>  
+    
+{% endfor %}
+
+{% endblock  %}
+

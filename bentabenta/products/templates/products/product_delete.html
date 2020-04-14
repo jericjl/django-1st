@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="." method = "post"> {% csrf_token %}
+    <h4>Do you really want to delete this Item "{{obj.name}}"? </h4>
+<input type="submit" value="Yes" class="btn btn-danger"></button> <a name="" id="" class="btn btn-success" href="/products/" role="button">Cancel</a>
+</form>
+
+{% endblock  %}
