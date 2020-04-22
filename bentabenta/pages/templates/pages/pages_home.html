@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-<div class="alert alert-primary" role="alert">
+<div class="container-fluid">
+        <div class="container">
+
+                {{title}}
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-success" role="alert">
+                        This is a success alert—check it out!
+                    </div>                
+                </div>
+                <div class="col">
+                    <div class="alert alert-success" role="alert">
+                        This is a success alert—check it out!
+                    </div>                
+                </div>
+            </div>
+        <div class="alert alert-primary" role="alert">
+            <p>{{great}}</p>
     <strong> This is the Home page.</strong> <a href="#" class="alert-link"></a>
 </div>
     
 </div>
+    
+</div>
+
 
 {% endblock  %}

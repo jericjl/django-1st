@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +41,9 @@ INSTALLED_APPS = [
     #User Defined App
     'products',
     'pages',
+    'cart',
+    'search',
+    'tags',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'bentabenta.urls'
 
@@ -125,3 +131,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR , 'static_project_files')
+]
+
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_cnd', "static_root")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_cdn', "media_root")

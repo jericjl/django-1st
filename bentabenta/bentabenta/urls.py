@@ -13,20 +13,40 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings # check the documentation - this is manually added
+from django.conf.urls.static import static # check the documentation - this is manually added
+
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path ,include
+
 from products.views import (
-    product_list_view,
-    product_create_view,
-    product_detail_view,
-    product_delete_view)
-from pages.views import home_view
+  #  product_list_view,
+ #   product_create_view,
+ #   product_detail_view,
+ #   product_delete_view,
+ #   product_update_view,
+    ProductFeaturedListView,
+    ProductFeaturedDetailView,
+    ProductDetailView)
+
+from pages.views import home_view, contact_page_view,login_page
+#from cart.views import cart_view,cart_home_view
+
 
 urlpatterns = [
+    path('',include('products.urls',namespace='products')),
+    path('',include('pages.urls')),
     path('',home_view,name='home-view'),
-    path('products/',product_list_view , name ='product-list'),
-    path('products/create/',product_create_view,name='product-create'),
-    path('products/<int:pid>/',product_detail_view,name = 'product-detail'),
-    path('products/<int:pid>/delete/', product_delete_view, name = 'product-delete'),
+    path('',include('cart.urls',namespace = 'cart')),
     path('admin/', admin.site.urls),
+
+    path('product/<int:id>/',ProductDetailView.as_view() , name ='product-list'),
+    path('featured/', ProductFeaturedListView.as_view(), name ='featured-list'),
+    path('featured/<int:pid>' ,ProductFeaturedDetailView.as_view(),name ='featured-detail'),
+
+    path('', include('search.urls',namespace='search')),
 ]
+
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

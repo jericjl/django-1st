@@ -13,7 +13,9 @@ __pycache__/
 #sample Project
 djangotest/
 blogtest/
+static_cdn/
 # Distribution / packaging
+.vscode/
 .Python
 build/
 develop-eggs/
@@ -31,3 +33,4 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.save
