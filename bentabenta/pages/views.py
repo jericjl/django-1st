@@ -5,6 +5,7 @@ from .forms import ContactForm,LoginForm, RegisterForm
 
 # Create your views here.
 def home_view(request):
+    
     context = {
         'title'     : "BentaBen",
         'content'   : "Magandang Araw Welcome"
