@@ -1,5 +1,8 @@
 {% load static %}
-{% url 'home' as 'home_url'%}
+{% url 'pages:home-page' as 'home_url'%}
+{% url 'cart:cart-home' as cart%}
+
+
 <nav class="navbar navbar-expand-sm mb-3 navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="/">{% if brand_name %}
@@ -14,7 +17,9 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item ">
-                    <a class="nav-link" href="/">{{ home_url}}Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/" {% if home_url %}
+active
+                    {% endif %}>Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/products/">Products</a>
@@ -35,9 +40,12 @@
                 </li>
             <li class="nav-item">
                     <a class="nav-link" href="/page/login">Register</a>
-                </li>            
+                </li>
+              
                 {%endif%}
+
             </ul>
+                    <a class="nav-link" href="{{cart}}"  style="color:#FFF;"><span class="shopping-cart"><small>{{request.session.cart_items}}</small></span> <i class="fas fa-shopping-cart"></i></a>
             {% include "search/snippets/search_form.html" %}
         </div>
     </div>    

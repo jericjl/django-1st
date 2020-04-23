@@ -1,32 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <div class="container-fluid">    
-          
 
-            <div class="card text-left col-col-md-6">
-              <img src="{{ object.image.url }}"/>
-              <div class="card-body">
-              <p>Name :             {{ object.name}}<br></p>
-                <h4 class="card-title"> Price : {{object.price}}<br></h4>
-                <p class="card-text"> Description :{{object.description}}</p>
-                <p> Summary : {{object.summary}}</p>
-            <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block">Add to cart</button>
-              </div>
-                      <div class="col-12 col-md-6">
-                            {{cart}}
-                            {% if object in cart.products.all  %}
-                            In Cart
-                            {% else %}
-                             {% include 'products/snippets/update_cart.html' with product=object cart=cart %}
-                          {% endif %}
-                          
-                      </div> 
-            </div>
-        
-           <br>
-           
-    </div>
+                <div class="card text-center-p3" style="width:30rem; margin-bottom:50px;">
+                  <img class="card-img-top" src="{{ object.image.url }}" alt="">
+                      <div class="card-body">
+                        <p>Name : {{ object.name}}<br></p>
+                        <h4 class="card-title"> Price : {{object.price}}<br></h4>
+                        <p class="card-text"> Description :{{object.description}}</p>
+                        <p> Summary : {{object.summary}}</p>
+                        <!-- This area is for add to cart function -->
+                         <div class="col-12 col-md-6">
+                                  {% include 'products/snippets/update_cart.html' with product=object cart=cart %}      
+                          </div>                         
+                      </div>
+                </div>
+
 </div>
 
 
