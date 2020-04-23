@@ -21,31 +21,21 @@ def cart_create(user=None):
 
 def cart_home_view(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
-    products = cart_obj.products.all()
-    total = 0
-    for x in products:
-        total += x.price
-    print(total)
-    cart_obj.total = total
-    cart_obj.save()
-    #request.session['cart_id'] = "12"
-    #cart_id = request.session.get("cart_id" , None)
-    #qs = Cart.objects.filter(id=cart_id)
-    #if qs.count() == 1:
-    #    cart_obj = qs.first()
-    #    print("cart id exist")
-    #    if request.user.is_authenticated and cart_obj.user is None:
-    #        cart_obj.user = request.user
-    #        cart_obj.save()
-    #else:
-    #    request_user = request.user
-    #    cart_obj = Cart.objects.new_cart(user=request_user)
-    #    request.session['cart_id'] = cart_obj.id
-    return render(request, 'cart/home.html', {} )
+    return render(request, 'cart/home.html', {"cart":cart_obj} )
 
 def cart_update(request):
-    obj = Products.objects.get(id=1)
-    cart_obj, new_obj = Cart.objects.new_or_get(request)
-    cart_obj.products.add(obj)
-    #cart_obj.products.remove()
-    return redirect("cart:cart-home")
+    product_id = request.POST.get('product_id')
+    if product_id is not None:
+        try:
+            product_obj = Products.objects.get(id=product_id)
+        except Products.DoesNotExist:
+            print("No Product")
+            return redirect("cart:cart-home")
+        cart_obj, new_obj = Cart.objects.new_or_get(request)
+        if product_obj in cart_obj.products.all():
+            cart_obj.products.remove(product_obj)
+        else:
+        #obj = Products.objects.get(id=1)
+            cart_obj.products.add(product_obj)
+        #cart_obj.products.remove()
+        return redirect("cart:cart-home")

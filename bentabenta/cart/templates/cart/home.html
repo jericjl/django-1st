@@ -2,6 +2,42 @@
 {% block content %}
 
 Cart
+{% if cart.products.exists %}
 
 
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Price</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  {% for product in cart.products.all %}
+  
+ 
+  <tbody>
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td></td>
+    </tr>
+     {% endfor %}
+    <tr>
+      <th colspan="2"></th>
+      <td>Subtotal : <b>{{cart.subtotal}}</b></td>
+    </tr>
+    <tr>
+      <th  colspan="2"></th>
+      <td>Total : {{cart.total}}</td>
+    </tr>
+  </tbody>
+</table>
+{% else %}
+<p class='lead'> Cart is empty</p>
+{% endif %}
 {% endblock  %}

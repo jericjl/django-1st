@@ -13,15 +13,17 @@
                 <p> Summary : {{object.summary}}</p>
             <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block">Add to cart</button>
               </div>
+                      <div class="col-12 col-md-6">
+                            {{cart}}
+                            {% if object in cart.products.all  %}
+                            In Cart
+                            {% else %}
+                             {% include 'products/snippets/update_cart.html' with product=object cart=cart %}
+                          {% endif %}
+                          
+                      </div> 
             </div>
-            <div class="col-12 col-md-6">
-                {{cart}}
-                {% if object in cart.products.all  %}
-                In Cart
-                {% else %}
-                Add to Cart
-                {% endif %}
-            </div>          
+        
            <br>
            
     </div>
