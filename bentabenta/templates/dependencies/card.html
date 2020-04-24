@@ -1,6 +1,6 @@
 
 
-<div class="card" style="width:18rem; margin-bottom:50px;">
+<div class="card mb-3 col-sm" style="width:20rem;">
 {% if instance.image.url %}
   <img class="card-img-top" src="{{ instance.image.url }}" alt="Card image cap">
       {% endif %}
@@ -8,12 +8,6 @@
     <h5 class="card-title">${{instance.price}}</h5>
     <!-- <p class="card-text"><a href ="{{instance.get_absolute_url}}"> {{instance.name}}</a></p>-->
     <p class="card-text"><a href ="{% url 'products:product-detail' slug=instance.slug %}"> {{instance.name}}</a></p>
-    
-  {% if object in cart.products.all  %}
-  In Cart
-  {% else %}
-  {% include 'products/snippets/update_cart.html' with product=object cart=cart %}
-  {% endif %}
-     <p class="card-text"><small class="text-muted">{{instance.created_at}}</small></p>
+
   </div>
 </div>

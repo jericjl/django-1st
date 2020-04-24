@@ -3,6 +3,8 @@
 {% url 'cart:cart-home' as cart%}
 
 
+
+
 <nav class="navbar navbar-expand-sm mb-3 navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="/">{% if brand_name %}
@@ -30,23 +32,59 @@ active
             <li class="nav-item">
                     <a class="nav-link" href="/page/contact">Contact Us</a>
                 </li>
-                {%if request.user.is_authenticated %}
-            <li class="nav-item">
-                    <a class="nav-link" href="/page/login">Logout</a>
-                </li>
-                {% else %}
-            <li class="nav-item">
-                    <a class="nav-link" href="/page/login">Login</a>
-                </li>
-            <li class="nav-item">
-                    <a class="nav-link" href="/page/login">Register</a>
-                </li>
-              
-                {%endif%}
+
 
             </ul>
                     <a class="nav-link" href="{{cart}}"  style="color:#FFF;"><span class="shopping-cart"><small>{{request.session.cart_items}}</small></span> <i class="fas fa-shopping-cart"></i></a>
-            {% include "search/snippets/search_form.html" %}
+          <!--  {% include "search/snippets/search_form.html" %} -->
+          <!-- Nav tabs -->
+          <ul class="navbar-nav my-2 my-lg-0" id="navId">
+              <li class="nav-item">
+                  <a href="#tab5Id" class="nav-link">Track Order</a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
+                            <div class="dropdown-menu">
+                                        {%if request.user.is_authenticated %}
+                                            <a class="dropdown-item" href="#tab2Id">My Profile</a>
+                                            <a class="dropdown-item" href="#tab2Id">Account Setting</a>
+                                            <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#tab4Id">Logout</a>
+                                            </div>                                 
+                                        {% else %}
+                                    
+                                            <a class="dropdown-item" href=" {% url 'pages:login-page' %}">Login</a>
+                                        <!--     <a class="nav-link" href="/page/login">Login</a> -->
+                                            <a class="dropdown-item" href="{% url 'pages:register-page'%}">Register</a>
+                                    
+                                        {%endif%}
+
+  
+              </li>
+
+
+          </ul>
+          
+
+          
+          <script>
+              $('#navId a').click(e => {
+                  e.preventDefault();
+                  $(this).tab('show');
+              });
+          </script>
+
+
         </div>
     </div>    
 </nav>
+
+
+<div class="container">
+       <div class="row">
+      <div class="col-12 col-md-8 mx-auto py-4">
+                        {% include "search/snippets/search_form.html" %}
+                    <hr/>
+                    </div>
+    </div>
+</div>

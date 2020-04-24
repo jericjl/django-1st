@@ -30,7 +30,7 @@ from products.views import (
     ProductFeaturedDetailView,
     ProductDetailView)
 
-from pages.views import home_view, contact_page_view,login_page
+from pages.views import home_view, contact_page_view
 #from cart.views import cart_view,cart_home_view
 
 
@@ -39,8 +39,8 @@ urlpatterns = [
     path('',include('pages.urls')),
     path('',home_view,name='home-view'),
     path('',include('cart.urls',namespace = 'cart')),
+    path('',include('accounts.urls',namespace='accounts')),
     path('admin/', admin.site.urls),
-
     path('product/<int:id>/',ProductDetailView.as_view() , name ='product-list'),
     path('featured/', ProductFeaturedListView.as_view(), name ='featured-list'),
     path('featured/<int:pid>' ,ProductFeaturedDetailView.as_view(),name ='featured-detail'),
