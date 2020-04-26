@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'tags',
     'orders',
     'accounts',
+    'billings',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ MIDDLEWARE = [
 ]
 
 
-
+LOGOUT_REDIRECT_URL = "/login/" #This is manually input to change the logout redirect page
 ROOT_URLCONF = 'bentabenta.urls'
 
 TEMPLATES = [

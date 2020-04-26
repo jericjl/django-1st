@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render ,redirect
-from .forms import ContactForm,LoginForm, RegisterForm
+from .forms import ContactForm
 
 
 # Create your views here.

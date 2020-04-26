@@ -1,6 +1,7 @@
 from math import fsum
 from django.db import models
 from cart.models import Cart
+from billings.models import BillingProfile
 from django.db.models.signals import pre_save, post_save
 from bentabenta.utils import unique_order_id_generator
 
@@ -14,13 +15,14 @@ ORDER_STATUS_CHOICES = (
 )
 
 class Order(models.Model):
-    #pk / id
+    billing_profile     = models.ForeignKey(BillingProfile,null=True , blank= True,on_delete=models.DO_NOTHING)
     order_id            = models.CharField(max_length=120,blank=True)
     #billing_profile    =
     cart                = models.ForeignKey(Cart,on_delete=models.DO_NOTHING)
     status              = models.CharField(max_length = 120 , default = 'created', choices = ORDER_STATUS_CHOICES)
     shipping_total      = models.DecimalField(default=10.00, max_digits = 65, decimal_places=2)
     total               = models.DecimalField(default=0,max_digits=65, decimal_places=2) 
+    active              = models.BooleanField(default=True)
 
     def __str__(self):
         return self.order_id

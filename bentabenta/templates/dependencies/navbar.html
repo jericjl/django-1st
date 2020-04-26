@@ -1,6 +1,11 @@
 {% load static %}
-{% url 'pages:home-page' as 'home_url'%}
+{% url 'pages:home-page' as home_url%}
+{% url 'accounts:logout' as logout %}
+{% url 'accounts:login-page' as login %}
+{% url 'accounts:register-page' as register%}
 {% url 'cart:cart-home' as cart%}
+
+
 
 
 
@@ -49,13 +54,13 @@ active
                                             <a class="dropdown-item" href="#tab2Id">My Profile</a>
                                             <a class="dropdown-item" href="#tab2Id">Account Setting</a>
                                             <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#tab4Id">Logout</a>
+                                                    <a class="dropdown-item" href="{{logout}}">Logout</a>
                                             </div>                                 
                                         {% else %}
                                     
-                                            <a class="dropdown-item" href=" {% url 'pages:login-page' %}">Login</a>
+                                            <a class="dropdown-item" href=" {{login}}">Login</a>
                                         <!--     <a class="nav-link" href="/page/login">Login</a> -->
-                                            <a class="dropdown-item" href="{% url 'pages:register-page'%}">Register</a>
+                                            <a class="dropdown-item" href="{{register}}">Register</a>
                                     
                                         {%endif%}
 
@@ -83,6 +88,7 @@ active
 <div class="container">
        <div class="row">
       <div class="col-12 col-md-8 mx-auto py-4">
+
                         {% include "search/snippets/search_form.html" %}
                     <hr/>
                     </div>

@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
-
+from accounts.forms import LoginForm, GuestForm
+from accounts.models import GuestEmail
+from billings.models import BillingProfile
 from products.models import Products
 from orders.models import Order
 from .models import Cart
@@ -49,6 +51,36 @@ def checkout_home(request):
     product_count = cart_obj.products.count()
     if cart_created  or product_count == 0:
         return redirect("cart:cart-home")
+    user = request.user
+    billing_profile = None
+    login_form = LoginForm()
+    guest_form = GuestForm()
+    guest_email_id = request.session.get('guest_email_id')
+
+    if user.is_authenticated :
+        billing_profile, billing_profile_created = BillingProfile.objects.get_or_create(user=user , email =user.email )
+        
+    if guest_email_id is not None:
+        guest_email_obj = GuestEmail.objects.get(id=guest_email_id)
+        billing_profile, billing_guest_profile_created = BillingProfile.objects.get_or_create(email=guest_email_obj )
+
     else:
-        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
-    return render(request, "cart/checkout.html" , {"object": order_obj})
+        pass
+
+    if billing_profile is not None:
+        order_qs = Order.objects.filter(billing_profile=billing_profile, cart=cart_obj, active=True)
+        if order_qs.count() == 1:
+            order_obj = order_qs.first()
+            
+        else:
+            older_order_qs = Order.objects.filter(billing_profile=billing_profile).filter(cart=cart_obj,active = True)
+            if older_order_qs.exists():
+                older_order_qs.update(active=False)
+            order_obj = Order.objects.create(billing_profile=billing_profile, cart=cart_obj, active=True)
+    context =   {
+        "object" : order_obj,
+        "billing_profile" : billing_profile,
+        "login_form" : login_form,
+        "guest_form" : guest_form
+    } 
+    return render(request, "cart/checkout.html" , context)
