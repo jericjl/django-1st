@@ -5,8 +5,12 @@ User = get_user_model() # check the documentation for this function is use for r
 
 
 class GuestForm(forms.Form):
-    email   =    forms.EmailField()
-
+    email       = forms.EmailField(widget = forms.TextInput(
+            attrs={ 
+                "class": "form-control" , "placeholder": "Email"
+                        }
+                    )
+                    )
 
 
 class ContactForm(forms.Form):

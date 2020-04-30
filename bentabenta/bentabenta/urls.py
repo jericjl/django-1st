@@ -40,12 +40,14 @@ urlpatterns = [
     path('',home_view,name='home-view'),
     path('',include('cart.urls',namespace = 'cart')),
     path('',include('accounts.urls',namespace='accounts')),
+    path('',include('addresses.urls',namespace='addresses')),
     path('admin/', admin.site.urls),
     path('product/<int:id>/',ProductDetailView.as_view() , name ='product-list'),
     path('featured/', ProductFeaturedListView.as_view(), name ='featured-list'),
     path('featured/<int:pid>' ,ProductFeaturedDetailView.as_view(),name ='featured-detail'),
 
     path('', include('search.urls',namespace='search')),
+    
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

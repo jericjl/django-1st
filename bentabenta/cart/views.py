@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
 from accounts.forms import LoginForm, GuestForm
+from addresses.forms import AddressForm
+
 from accounts.models import GuestEmail
 from billings.models import BillingProfile
+from addresses.models import Address
 from products.models import Products
 from orders.models import Order
 from .models import Cart
@@ -51,36 +54,38 @@ def checkout_home(request):
     product_count = cart_obj.products.count()
     if cart_created  or product_count == 0:
         return redirect("cart:cart-home")
-    user = request.user
-    billing_profile = None
-    login_form = LoginForm()
-    guest_form = GuestForm()
-    guest_email_id = request.session.get('guest_email_id')
-
-    if user.is_authenticated :
-        billing_profile, billing_profile_created = BillingProfile.objects.get_or_create(user=user , email =user.email )
-        
-    if guest_email_id is not None:
-        guest_email_obj = GuestEmail.objects.get(id=guest_email_id)
-        billing_profile, billing_guest_profile_created = BillingProfile.objects.get_or_create(email=guest_email_obj )
-
-    else:
-        pass
-
+    login_form      =   LoginForm()
+    guest_form      =   GuestForm()
+    address_form    =   AddressForm()
+    #billing_address_form =  AddressForm()
+    billing_address_id = request.session.get("billing_address_id", None)
+    shipping_address_id = request.session.get("shipping_address_id", None)
+    billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+    address_qs = None
     if billing_profile is not None:
-        order_qs = Order.objects.filter(billing_profile=billing_profile, cart=cart_obj, active=True)
-        if order_qs.count() == 1:
-            order_obj = order_qs.first()
-            
-        else:
-            older_order_qs = Order.objects.filter(billing_profile=billing_profile).filter(cart=cart_obj,active = True)
-            if older_order_qs.exists():
-                older_order_qs.update(active=False)
-            order_obj = Order.objects.create(billing_profile=billing_profile, cart=cart_obj, active=True)
+        if request.user.is_authenticated:
+            address_qs = Address.objects.filter(billing_profile=billing_profile)
+        #models Manager
+        order_obj, order_obj_created = Order.objects.new_or_get(billing_profile ,cart_obj)
+        if shipping_address_id:
+            order_obj.shipping_address = Address.objects.get(id=shipping_address_id)
+            del request.session['shipping_address_id']
+        elif billing_address_id:
+            order_obj.billing_address = Address.objects.get(id=billing_address_id)  
+            del request.session["billing_address_id"]
+        if billing_address_id or shipping_address_id:
+            order_obj.save()
+       # has_card = billing_profile.has_card
+
     context =   {
         "object" : order_obj,
         "billing_profile" : billing_profile,
-        "login_form" : login_form,
-        "guest_form" : guest_form
+        "login_form"    : login_form,
+        "guest_form"    : guest_form,
+        'address_form'  : address_form,
+        "address_qs"    : address_qs,
     } 
     return render(request, "cart/checkout.html" , context)
+
+
+
