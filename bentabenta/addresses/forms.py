@@ -8,7 +8,7 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = [
-            #'nickname',
+    
             #'name',
             #'billing_profile',
             'address_type',
