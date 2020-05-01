@@ -38,7 +38,7 @@
                   <p>Billing Profile : {{billing_profile.default_card}}</p>
                   <p>Shipping Total : {{object.shipping_total}}
                   <p>Order Total : {{object.total}}
-                    <form method="POST" action="">
+                    <form method="POST" action=""> {% csrf_token %}
                   <button class="btn btn-primary" type="submit">
                            Submit
                   </button>
