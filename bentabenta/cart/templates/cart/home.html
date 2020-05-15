@@ -10,10 +10,10 @@ Cart
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Quantity</th>
       <th scope="col">Product Name</th>
       <th scope="col">Product Price</th>
-      <th scope="col">Quantity</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   {% for product in cart.products.all %}
@@ -21,10 +21,20 @@ Cart
  
   <tbody>
     <tr>
-      <th scope="row">{{ forloop.counter }}</th>
+          <td>
+      {% for item in qty %}
+      {% if item.products == product %}
+      <input type="text" value="{{item.quantity}}"> 
+      {% else %}
+      {% endif %}
+       
+  
+      {% endfor %}
+      </td>
+    <!--  <th scope="row">{{ forloop.counter }}</th>-->
       <td><a href="{{ product.get_absolute_url}}">{{ product.name }}</a> <a href=""><small>{% include 'products/snippets/update_cart.html' with product=product cart=cart in_cart=True %}</small></a></td>
       <td>{{ product.price }}</td>
-      <td></td>
+
     </tr>
      {% endfor %}
     <tr>

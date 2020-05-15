@@ -7,7 +7,7 @@ from billings.models import BillingProfile
 from addresses.models import Address
 from products.models import Products
 from orders.models import Order
-from .models import Cart
+from .models import Cart,CartItem
 
 
 # Create your views here.
@@ -27,10 +27,16 @@ def cart_create(user=None):
 
 def cart_home_view(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
-    return render(request, 'cart/home.html', {"cart":cart_obj} )
-
+    cart_product_qty    = CartItem.objects.filter(cart = cart_obj )
+    context = {
+        "cart":cart_obj,
+        "qty"  : cart_product_qty
+        } 
+    return render(request, 'cart/home.html',context )
+    
 def cart_update(request):
     product_id = request.POST.get('product_id')
+    qty =1
     if product_id is not None:
         try:
             product_obj = Products.objects.get(id=product_id)
@@ -40,9 +46,11 @@ def cart_update(request):
         cart_obj, new_obj = Cart.objects.new_or_get(request)
         if product_obj in cart_obj.products.all():
             cart_obj.products.remove(product_obj)
+            CartItem.objects.filter(products=product_obj).delete()
         else:
         #obj = Products.objects.get(id=1)
             cart_obj.products.add(product_obj)
+            cartitem_add = CartItem.objects.create(cart=cart_obj, products=product_obj ,quantity=qty) 
         #cart_obj.products.remove()
         request.session['cart_items'] = cart_obj.products.count()
         return redirect("cart:cart-home")
